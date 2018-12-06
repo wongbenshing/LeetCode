@@ -15,5 +15,6 @@ class Solution:
         gin = "--." + ".." + "-."
         zen = "--.." + "." + "-."
         gig = "--." + ".." + "--."
-        
+      
+        It is about how to use the set() and the join for string in Python
         """
