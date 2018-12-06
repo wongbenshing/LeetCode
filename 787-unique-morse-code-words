@@ -1,0 +1,19 @@
+class Solution:
+    def uniqueMorseRepresentations(self, words):
+        morseCode = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---",
+                     "-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-",
+                     "..-","...-",".--","-..-","-.--","--.."]
+        seen = set()
+        for word in words:
+            temp = "".join(morseCode[ord(ch)-ord('a')] for ch in word)
+            seen.add(temp)
+        return len(seen)
+        """
+        :type words: List[str]
+        :rtype: int
+        
+        gin = "--." + ".." + "-."
+        zen = "--.." + "." + "-."
+        gig = "--." + ".." + "--."
+        
+        """
