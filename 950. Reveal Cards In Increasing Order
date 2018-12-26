@@ -1,0 +1,21 @@
+class Solution:
+    def deckRevealedIncreasing(self, deck):
+        N = len(deck)
+        ans = [None] * N
+        deck = sorted(deck)
+        index = collections.deque(range(N))
+        
+        for card in deck:
+            ans[index.popleft()] = card
+            if index:
+                index.append(index.popleft())
+                
+        return ans
+        """
+        :type deck: List[int]
+        :rtype: List[int]
+        1) sort the deck
+        2) index is following the same rule
+        3) index is a queue
+        4) ans[index.popleft()] = sorteddeck[i]
+        """
