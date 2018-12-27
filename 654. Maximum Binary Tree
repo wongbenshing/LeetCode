@@ -1,0 +1,14 @@
+class Solution:
+    def constructMaximumBinaryTree(self, nums):
+        if not nums:       # if there is nothing in the nums
+            return None
+        curMax = max(nums) # Find out the maximum
+        maxIndex = nums.index(curMax)   # Get the corresponding index
+        node = TreeNode(curMax)         # Create the tree node with the maximum value
+        node.left = self.constructMaximumBinaryTree(nums[:maxIndex])       # former part as the left
+        node.right = self.constructMaximumBinaryTree(nums[(maxIndex+1):])  # latter part as the right
+        return node
+        """
+        :type nums: List[int]
+        :rtype: TreeNode
+        """
