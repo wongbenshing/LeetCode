@@ -1,0 +1,19 @@
+class Solution:
+    def minAddToMakeValid(self, S):
+        que = collections.deque()
+        for ch in S:
+            if ch == '(':
+                que.append(ch)
+            else:
+                if len(que):
+                    t = que.pop()
+                    if t == ")":
+                        que.append(t)
+                        que.append(ch)
+                else:
+                    que.append(ch)
+        return len(que)
+        """
+        :type S: str
+        :rtype: int
+        """
