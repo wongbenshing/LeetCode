@@ -1,0 +1,28 @@
+class Solution:
+    def diStringMatch(self, S):
+        string = collections.deque(range(len(S)+1))
+        if S[0] == "I":
+            flag = True  # True for from left to right, False for from right to left
+            ans = [string.popleft()]
+        else:
+            flag = False
+            ans = [string.pop()]
+        for i in range(1, len(S)):
+            if S[i-1] == S[i]:
+                if flag:
+                    ans.append(string.popleft())
+                else:
+                    ans.append(string.pop())
+            else:
+                if flag:
+                    ans.append(string.pop())
+                else:
+                    ans.append(string.popleft())
+                flag = not flag   
+        ans.append(string.pop())
+        return ans
+        """
+        It can be simplified as using low and high index, but I want to practice and use deque here
+        :type S: str
+        :rtype: List[int]
+        """
