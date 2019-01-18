@@ -1,0 +1,21 @@
+class Solution(object):
+    def removeDuplicates(self, nums):
+        cur = pre = None          
+        i = 0
+        
+        while i < len(nums):
+            if cur != nums[i]:
+                pre = cur
+                cur = nums[i]
+                i += 1
+            elif pre != nums[i]:
+                pre = nums[i]
+                i += 1
+            else:
+                nums.pop(i)
+        return len(nums)
+        """
+        :type nums: List[int]
+        ## use pre and cur to sign the last two number, so it can detect the number that occured more than 2 times
+        :rtype: int
+        """
