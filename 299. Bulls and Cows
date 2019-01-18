@@ -1,0 +1,59 @@
+class Solution(object):
+    def getHint(self, secret, guess):
+        bull = cow = 0
+        secretDict = {}
+        
+        newSecret = secret
+        newGuess = guess
+        
+        # Find bulls
+        for i in range(len(secret)-1, -1, -1):
+            if secret[i] == guess[i]:
+                bull += 1
+                newSecret = secret[:i] + newSecret[i+1:]
+                newGuess = guess[:i] + newGuess[i+1:]
+        
+        secret = newSecret
+        guess = newGuess
+        
+        # Find cows
+        for ch in secret:
+            try:
+                secretDict[ch] += 1
+            except(KeyError):
+                secretDict[ch] = 1
+        for ch in guess:
+            try:
+                secretDict[ch] -= 1
+                if secretDict[ch] == 0:
+                    secretDict.pop(ch, None)
+                cow += 1
+            except(KeyError):
+                pass
+        
+        # Find cows
+        #numS = []
+        #numG = []
+        #for i in range(len(secret)):
+        #    numS.append(int(secret[i]))
+        #    numG.append(int(guess[i]))
+        #numS = sorted(numS)
+        #numG = sorted(numG)
+        #ixG = 0
+        #for ixS in range(len(numS)):
+        #    while numG[ixG] < numS[ixS]:
+        #        ixG += 1
+        #        if ixG >= len(numG): break
+        #    if ixG >= len(numG): break
+        #    if numG[ixG] == numS[ixS]:
+        #        cow += 1
+        #        ixG += 1
+        #    if ixG >= len(numG): break
+        #cow -= bull
+        
+        return str(bull) + "A" + str(cow) + "B"
+        """
+        :type secret: str
+        :type guess: str
+        :rtype: str
+        """
