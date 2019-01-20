@@ -1,0 +1,36 @@
+class Solution(object):
+    def majorityElement(self, nums):
+        ans1 = None
+        ans2 = None
+        count1 = 0
+        count2 = 0
+        
+        for num in nums:
+            if num == ans1:
+                count1 += 1
+            elif num == ans2:
+                count2 += 1
+            elif count1 == 0:
+                ans1 = num
+                count1 += 1
+            elif count2 == 0:
+                ans2 = num
+                count2 += 1
+            else:
+                count1 -= 1
+                count2 -= 1
+                
+        n = len(nums)
+        t = []
+        if nums.count(ans1) > n//3:
+            t.append(ans1)
+        if nums.count(ans2) > n//3:
+            t.append(ans2)
+        return t
+        """
+        # Solution follows from Majority Vote Algorithm.
+        # https://discuss.leetcode.com/topic/17564/boyer-moore-majority-vote-algorithm-and-my-elaboration/2
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
