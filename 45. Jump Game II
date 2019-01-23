@@ -1,0 +1,18 @@
+class Solution:
+    def jump(self, nums):
+        curMax, preMax = 0, -1
+        count = 0
+        N = len(nums)
+        for i in range(N-1):
+            if curMax < i + nums[i]:
+                if i > preMax:
+                    preMax = curMax
+                    count += 1
+                curMax = i + nums[i]
+            if curMax >= N-1:
+                break
+        return count        
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
