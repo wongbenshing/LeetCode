@@ -1,0 +1,44 @@
+class Solution:
+    def maxProfit(self, k, prices):
+        # DP + State Machine
+        n = len(prices)
+        k = min(k, n)
+        if (n in [0,1]) or (k == 0):
+            return 0
+        
+        trade = [0] * (k+1)
+        best  = [0] * (k+1)
+        
+        for i in reversed(range(n-1)):
+            for j in range(max(1, k-i-1), min(k+1, n-i+1)):
+                trade[j] = max(trade[j] - prices[i] + prices[i+1], best[j-1])
+                best[j] = max(best[j], trade[j])
+            
+        return best[-1]
+        """
+        # *** TIME LIMIT EXCEEDED ***
+        
+        # DP + State Machine
+        n = len(prices)
+        k = min(k, n)
+        if (n in [0,1]) or (k == 0):
+            return 0
+        
+        s = []
+        for i in range(2*k):
+            s.append(-float('inf'))
+        
+        s[0] = -prices[0]
+        
+        for i in range(1, n):
+            s[0] = max(s[0], -prices[i])
+            for j in range(max(1, k-i-1), k-1):
+                s[2*j+1] = max(s[2*j+1], s[2*j] + prices[i])
+                s[2*j+2] = max(s[2*j+2], s[2*j+1] - prices[i])
+            s[2*k-1] = max(s[2*k-1], s[2*k-2] + prices[i])
+        
+        return max(0, s[2*k-1])
+        :type k: int
+        :type prices: List[int]
+        :rtype: int
+        """
