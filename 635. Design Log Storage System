@@ -1,0 +1,83 @@
+class LogSystem:
+
+    def __init__(self):
+        self.id = []
+        self.date = []
+        self.time = []
+        
+
+    def put(self, id, timestamp):
+        self.id.append(id)
+        s = timestamp.split(":")
+        self.date.append(int(s[0]+s[1]+s[2]))
+        self.time.append(int(s[3]+s[4]+s[5]))
+        """
+        :type id: int
+        :type timestamp: str
+        :rtype: void
+        """
+        
+
+    def retrieve(self, s, e, gra):
+        dic = {"Year":0, "Month":1, "Day":2, "Hour":3, "Minute":4, "Second":5}
+        gran = dic[gra]
+        start, end = s.split(":"), e.split(":")
+        if gran < 3:
+            l_time, e_time = 0, 235959
+            if gran == 0:
+                l_date = int(start[0]) * 10000
+                e_date = int(end[0]) * 10000 + 1231
+            elif gran == 1:
+                l_date = int(start[0]+start[1]) * 100
+                e_date = int(end[0]+end[1]) * 100 + 31
+            else:
+                l_date = int(start[0]+start[1]+start[2])
+                e_date = int(end[0]+end[1]+end[2])
+        else:
+            l_date = int(start[0]+start[1]+start[2])
+            e_date = int(end[0]+end[1]+end[2])
+            if gran == 3:
+                l_time = int(start[3]) * 10000
+                e_time = int(end[3]) * 10000 + 5959
+            elif gran == 4:
+                l_time = int(start[3]+start[4]) * 100
+                e_time = int(end[3]+end[4]) * 100 + 59
+            else:
+                l_time = int(start[3]+start[4]+start[5])
+                e_time = int(end[3]+end[4]+end[5])
+            
+        n = len(self.id)
+        ans = []
+        if n == 0:
+            return ans
+        if gran < 3:
+            for i in range(n):
+                if self.date[i] >= l_date and self.date[i] <= e_date:
+                    ans.append(self.id[i])
+        else:
+            for i in range(n):
+                if self.date[i] > l_date and self.date[i] < e_date:
+                    ans.append(self.id[i])
+                elif l_date != e_date:
+                    if self.date[i] == l_date and self.time[i] >= l_time:
+                        ans.append(self.id[i])
+                    elif self.date[i] == e_date and self.time[i] <= e_time:
+                        ans.append(self.id[i])
+                else:
+                    if self.date[i] == l_date and self.time[i] >= l_time and self.time[i] <= e_time:
+                        ans.append(self.id[i])
+                
+        return ans        
+        """
+        :type s: str
+        :type e: str
+        :type gra: str
+        :rtype: List[int]
+        """
+        
+
+
+# Your LogSystem object will be instantiated and called as such:
+# obj = LogSystem()
+# obj.put(id,timestamp)
+# param_2 = obj.retrieve(s,e,gra)
