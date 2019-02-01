@@ -41,6 +41,7 @@ class Solution:
         ans = ans + intervals[i:n]
         return ans
         """
+        
         :type intervals: List[Interval]
         :type newInterval: Interval
         :rtype: List[Interval]
