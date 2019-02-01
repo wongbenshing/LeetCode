@@ -1,0 +1,38 @@
+class Solution:
+    def numIslands(self, grid):
+        # Empty Grid Situation
+        if not grid or len(grid) == 0:
+            return 0
+        
+        # Initialization
+        row, col = len(grid), len(grid[0])
+        ans = 0
+        
+        import collections
+        
+        # BFS
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] == '1':
+                    ans += 1
+                    que = collections.deque()
+                    que.append([i,j])
+                    while len(que) > 0:
+                        temp = que.pop()
+                        temp_row = temp[0]
+                        temp_col = temp[1]
+                        grid[temp_row][temp_col] = '0'
+                        # Four direction
+                        if (temp_row >= 1) and (grid[temp_row-1][temp_col] == '1'):
+                            que.append([temp_row-1, temp_col])
+                        if (temp_row < row-1) and (grid[temp_row+1][temp_col] == '1'):
+                            que.append([temp_row+1, temp_col])
+                        if (temp_col >= 1) and (grid[temp_row][temp_col-1] == '1'):
+                            que.append([temp_row, temp_col-1])
+                        if (temp_col < col-1) and (grid[temp_row][temp_col+1] == '1'):
+                            que.append([temp_row, temp_col+1])
+        
+        return ans
+        """
+        Simple BFS
+        """
