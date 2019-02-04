@@ -1,0 +1,20 @@
+class Solution(object):
+    def totalFruit(self, tree):
+        ans = 0
+        temp_start = 0
+        count = collections.Counter()
+        
+        for i, v in enumerate(tree):
+            count[v] += 1
+            while len(count) >= 3:
+                count[tree[temp_start]] -= 1
+                if count[tree[temp_start]] == 0:
+                    del count[tree[temp_start]]
+                temp_start += 1
+            ans = max(ans, i - temp_start + 1)
+        return ans
+        """
+        Use the Counter
+        :type tree: List[int]
+        :rtype: int
+        """
