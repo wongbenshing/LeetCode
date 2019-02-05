@@ -1,0 +1,121 @@
+class Solution(object):
+    def calcEquation(self, equations, values, queries):
+        graph = {}
+        
+        def create_graph(equations, values):
+            def add_path(s, t, v):
+                if s in graph:
+                    graph[s].append((t, v))
+                else:
+                    graph[s] = [(t, v)]
+            
+            for equation, value in zip(equations, values):
+                s, t = equation
+                add_path(s, t, value)
+                add_path(t, s, 1.0 / value)
+        
+        
+        def find_path(query):
+            s, t = query
+            
+            if s not in graph or t not in graph:
+                return -1.0
+            
+            q = collections.deque([(s, 1.0)])
+            visited = set()
+            
+            while q:
+                front, cur_product = q.pop()
+                
+                if front == t:
+                    return cur_product
+                
+                visited.add(front)
+                
+                for neighbor, value in graph[front]:
+                    if neighbor not in visited:
+                        q.append((neighbor, cur_product * value))
+            
+            return -1.0
+        
+        
+        create_graph(equations, values)
+        return [find_path(query) for query in queries]
+        
+        """
+        # ***** Reference *****
+        https://leetcode.com/problems/evaluate-division/discuss/88275/Python-fast-BFS-solution-with-detailed-explantion
+        
+        :type equations: List[List[str]]
+        :type values: List[float]
+        :type queries: List[List[str]]
+        :rtype: List[float]
+        
+        # ***** My Wrong Answer (Passed 9/11) ***
+        
+        n_equations = len(equations)
+        p_count = 0
+        dic = {}
+        
+        for equation in equations:
+            for j in range(2):
+                if equation[j] not in dic.keys():
+                    dic[equation[j]] = p_count
+                    p_count += 1
+        
+        dis = [[float('inf') for _ in range(p_count)] for _ in range(p_count)]
+        for i in range(n_equations):
+            dis[dic[equations[i][0]]][dic[equations[i][1]]] = values[i]
+            if values != 0:
+                dis[dic[equations[i][1]]][dic[equations[i][0]]] = 1.0 / values[i]
+        
+        for i in range(p_count):
+            if dis[i][i] == float('inf'):
+                dis[i][i] = 1.0
+        
+        ans = []
+        
+        for query in queries:
+            if query[0] not in dic.keys() or query[1] not in dic.keys():
+                ans.append(-1.0)
+            elif dis[dic[query[0]]][dic[query[1]]] != float('inf'):
+                ans.append(dis[dic[query[0]]][dic[query[1]]])
+            else:    # BFS
+                start = dic[query[0]]
+                end = dic[query[1]]
+                flag = True 
+                temp = -1.0
+                if start > end:
+                    start, end = end, start
+                    flag = False
+                    
+                q = collections.deque()
+                for i in range(start+1, p_count):
+                    if dis[start][i] != float('inf'):
+                        q.append(i)
+                
+                while len(q):
+                    cur = q.pop()
+                    for i in range(cur+1, p_count):
+                        if dis[cur][i] == float('inf'):
+                            if dis[start][i] != float('inf'):
+                                dis[cur][i] = dis[start][i] / dis[start][cur]
+                            else:
+                                continue
+                        if dis[start][i] == float('inf'):
+                            dis[start][i] = dis[start][cur] * dis[cur][i]
+                        if i == end:
+                            temp = dis[start][i]
+                            break
+                        else:
+                            q.append(i)
+                
+                if flag:
+                    ans.append(temp)
+                elif temp != 0:
+                    ans.append(1.0 / temp)
+                else:
+                    ans.append(-1.0)   
+        
+        return ans
+        """
