@@ -1,0 +1,23 @@
+class Solution(object):
+    def lengthOfLongestSubstringTwoDistinct(self, s):
+        if s == "":
+            return 0
+        
+        ans = 0
+        start = 0
+        counter = collections.Counter()
+        
+        for i,v in enumerate(s):
+            counter[v] += 1
+            while len(counter) >= 3:
+                counter[s[start]] -= 1
+                if counter[s[start]] == 0:
+                    del counter[s[start]]
+                start += 1
+            ans = max(ans, i - start + 1)
+        
+        return ans
+        """
+        :type s: str
+        :rtype: int
+        """
