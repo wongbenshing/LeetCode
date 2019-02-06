@@ -1,0 +1,60 @@
+class KthLargest(object):
+
+    def __init__(self, k, nums):
+        self.nums = nums
+        self.k = k
+        heapq.heapify(self.nums)
+        while len(self.nums) > k:
+            heapq.heappop(self.nums)
+            
+    
+    def add(self, val):
+        if len(self.nums) < self.k:
+            heapq.heappush(self.nums, val)
+            return self.nums[0]
+        else:
+            heapq.heappushpop(self.nums, val)
+            return self.nums[0]
+                
+        """
+        :type val: int
+        :rtype: int
+        
+    def __init__(self, k, nums):
+        self.K = k
+        if len(nums) > k:
+            self.nums = sorted(nums)[-self.K:]
+        else:
+            self.nums = sorted(nums)
+        
+
+    def add(self, val):
+        if not self.nums:
+            self.nums = [val]
+            return val
+        
+        if len(self.nums) < self.K:
+            for i in range(len(self.nums)):
+                if self.nums[i] > val:
+                    self.nums = self.nums[:i] + [val] + self.nums[i:]
+                    return self.nums[0]
+            self.nums = self.nums + [val]
+            return self.nums[0]
+        
+        else:
+            if val < self.nums[0]:
+                return self.nums[0]
+            else:
+                for i in range(self.K):
+                    if self.nums[i] > val:
+                        self.nums = self.nums[1:i] + [val] + self.nums[i:]
+                        return self.nums[0]
+                self.nums = self.nums[1:] + [val]
+                return self.nums[0]
+        """
+        
+
+
+# Your KthLargest object will be instantiated and called as such:
+# obj = KthLargest(k, nums)
+# param_1 = obj.add(val)
