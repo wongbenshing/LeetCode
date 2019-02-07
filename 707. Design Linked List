@@ -1,0 +1,108 @@
+class Node:
+    def __init__(self, val=None):
+        self.val = val
+        self.next = None
+
+class MyLinkedList:
+
+    def __init__(self):
+        self.head = Node()
+        """
+        Initialize your data structure here.
+        """
+    
+    def out(self):
+        cur = self.head
+        ans = []
+        while cur:
+            ans.append(cur.val)
+            cur = cur.next
+        print(ans)
+
+    def get(self, index: 'int') -> 'int':
+        count = 0
+        cur = self.head
+        while cur.next:
+            if count == index:
+                return cur.next.val
+            else:
+                cur = cur.next
+                count += 1
+        return -1
+        """
+        Get the value of the index-th node in the linked list. If the index is invalid, return -1.
+        """
+        
+
+    def addAtHead(self, val: 'int') -> 'None':
+        add = Node(val)
+        pre = self.head.next if self.head.next else None
+        add.next = pre
+        self.head.next = add
+        #self.out()
+        """
+        Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+        """
+        
+
+    def addAtTail(self, val: 'int') -> 'None':
+        add = Node(val)
+        cur = self.head.next if self.head.next else self.head
+        while cur.next:
+            cur = cur.next
+        cur.next = add
+        #self.out()
+        """
+        Append a node of value val to the last element of the linked list.
+        """
+        
+
+    def addAtIndex(self, index: 'int', val: 'int') -> 'None':
+        count = 0
+        cur = self.head
+        while cur.next:
+            if count == index:
+                add = Node(val)
+                temp = cur.next
+                add.next = temp
+                cur.next = add
+                #self.out()
+                return
+            else:
+                count += 1
+                cur = cur.next
+        if index == count:
+            cur.next = Node(val)
+        #self.out()
+        """
+        Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
+        """
+        
+
+    def deleteAtIndex(self, index: 'int') -> 'None':
+        count = 0
+        cur = self.head
+        while cur.next:
+            if count == index:
+                cur.next = cur.next.next
+                #self.out()
+                return
+            else:
+                count += 1
+                cur = cur.next
+        if count == index:
+            cur = None
+        #self.out()        
+        """
+        Delete the index-th node in the linked list, if the index is valid.
+        """
+        
+
+
+# Your MyLinkedList object will be instantiated and called as such:
+# obj = MyLinkedList()
+# param_1 = obj.get(index)
+# obj.addAtHead(val)
+# obj.addAtTail(val)
+# obj.addAtIndex(index,val)
+# obj.deleteAtIndex(index)
