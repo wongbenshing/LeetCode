@@ -1,0 +1,29 @@
+class Solution:
+    def nextClosestTime(self, time: 'str') -> 'str':
+        time = time.split(":")
+        hh = int(time[0])
+        mm = int(time[1])
+        sameset = set([hh//10, hh%10, mm//10, mm%10])
+        
+        if len(sameset) == 1:
+            ch = str(hh//10)
+            return ch+ch+":"+ch+ch
+        
+        for m in range(mm+1, 60):
+            h1, h2, m1, m2 = hh//10, hh%10, m//10, m%10
+            if set([h1, h2, m1, m2]).issubset(sameset):
+                return str(h1)+str(h2)+":"+str(m1)+str(m2)
+            
+        for h in range(hh+1, 25):
+            h1, h2 = h//10, h%10
+            for m in range(60):
+                m1, m2 = m//10, m%10
+                if set([h1, h2, m1, m2]).issubset(sameset):
+                    return str(h1)+str(h2)+":"+str(m1)+str(m2)
+                
+        for h in range(hh):
+            h1, h2 = h//10, h%10
+            for m in range(60):
+                m1, m2 = m//10, m%10
+                if set([h1, h2, m1, m2]).issubset(sameset):
+                    return str(h1)+str(h2)+":"+str(m1)+str(m2)
