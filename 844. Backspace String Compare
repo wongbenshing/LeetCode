@@ -1,0 +1,14 @@
+class Solution:
+    def doit(self, s):
+        que = []
+        for ch in s:
+            if ch != "#":
+                que.append(ch)
+            elif ch == "#" and len(que) > 0:
+                que.pop()
+        return "".join(ch for ch in que)
+    
+    def backspaceCompare(self, S: 'str', T: 'str') -> 'bool':
+        sque = self.doit(S)
+        tque = self.doit(T)
+        return sque == tque
