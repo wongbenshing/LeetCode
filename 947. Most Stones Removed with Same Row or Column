@@ -1,0 +1,22 @@
+class DSU:    # Disjoint Set Union
+    def __init__(self, n):
+        self.p = [i for i in range(n)]
+    
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+    
+    def union(self, x, y):
+        xp = self.find(x)
+        yp = self.find(y)
+        self.p[xp] = yp
+
+        
+class Solution:
+    def removeStones(self, stones: 'List[List[int]]') -> 'int':
+        n = len(stones)
+        dsu = DSU(20000)  # 0 <= x,y < 10000
+        for x, y in stones:
+            dsu.union(x, y+10000)
+        return n - len(set(dsu.find(x) for x, y in stones))
