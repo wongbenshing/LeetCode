@@ -1,0 +1,29 @@
+class Solution:
+    def kEmptySlots(self, flowers: 'List[int]', k: 'int') -> 'int':
+        n = len(flowers)
+        if n <= 1:
+            return -1
+        slots = set()
+        for i in range(n):
+            slots.add(flowers[i])
+            l = flowers[i] - k - 1
+            r = flowers[i] + k + 1
+            
+            if l > 0 and l in slots:
+                flag = True
+                for j in range(l+1, flowers[i]):
+                    if j in slots:
+                        flag = False
+                        break
+                if flag:
+                    return i+1
+                
+            if r <= n and r in slots:
+                flag = True
+                for j in range(flowers[i]+1, r):
+                    if j in slots:
+                        flag = False
+                        break
+                if flag:
+                    return i+1
+        return -1
