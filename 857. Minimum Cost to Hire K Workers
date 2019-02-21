@@ -1,0 +1,27 @@
+class Solution:
+    def mincostToHireWorkers(self, quality: 'List[int]', wage: 'List[int]', K: 'int') -> 'float':
+        # Method 2 - Heap
+        # Time Complexity - O(N * log N)
+        # Space Complexity - O(N)
+        
+        workers = sorted((w/q, q, w) for q, w in zip(quality, wage)) # Tuple, sorted by unit_price
+        # Since workers are sorted by the unit_price, 
+        # So, unit_price[i] * q[i+1] <= w[i+1], i.e., unit_price[i] probably not suit for i+1
+        ans = float('inf')
+        pool = []
+        temp = 0
+        
+        for unit_price, q, w in workers:
+            heapq.heappush(pool, -q)    # want to keep the minimum K, 
+                                        # Since heap keep the big number, so, we need to push -q in heap
+            temp += q                   # The total qualities in heap
+            
+            if len(pool) > K:
+                temp += heapq.heappop(pool)  # Pop the top number in heap, i.e. the biggest number
+                
+            if len(pool) == K:
+                ans = min(ans, unit_price * temp)
+        
+        return float(ans)
+        
+        
