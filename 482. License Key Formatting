@@ -1,18 +1,18 @@
 class Solution(object):
     def licenseKeyFormatting(self, S, K):
-        S = S.replace('-', '').upper()
+        S = S.replace('-', '').upper()  # At first, remove all '-' and change all letter into upper case
         
         n = len(S)
-        if n == 0:
+        if n == 0:        # If the string is all '-' or empty
             return S
         ix = K if n % K == 0 else n % K
         
-        ans = [S[:ix]]
+        ans = [S[:ix]]   # Use list to mark each segment
         while ix < n:
             ans.append(S[ix:ix+K])
             ix += K
         
-        return '-'.join(ans)
+        return '-'.join(ans)  # Join all segments with '-' between each other
         """
         :type S: str
         :type K: int
