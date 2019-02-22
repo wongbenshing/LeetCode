@@ -1,0 +1,27 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+import heapq
+from queue import PriorityQueue
+
+class Solution:
+    def mergeKLists(self, lists: 'List[ListNode]') -> 'ListNode':
+        head = point = ListNode(0)
+        q = PriorityQueue()  # Create a priority queue
+        
+        for i, l in enumerate(lists):
+            if l:                     # put a tuple into priority queue
+                q.put((l.val, i, l))  # In python 3+, what we insert should includes index, i.e. tuple = (priority, index, data)
+        
+        while not q.empty():
+            val, i, node = q.get()    # .get() to extract the tuple
+            point.next = ListNode(val)
+            point = point.next
+            node = node.next
+            if node:               # if node not the end
+                q.put((node.val, i, node))
+        
+        return head.next           # Because head.val = 0
