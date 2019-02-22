@@ -1,0 +1,27 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, children):
+        self.val = val
+        self.children = children
+"""
+class Solution:
+    def levelOrder(self, root: 'Node') -> 'List[List[int]]':
+        # BFS question
+        if not root:
+            return []
+        
+        ans, que = [], [root]
+        
+        while que:
+            temp, new_que = [], []
+            
+            for node in que:
+                temp.append(node.val)
+                for child in node.children:
+                    new_que.append(child)
+            
+            que = new_que
+            ans.append(temp)
+        
+        return ans
