@@ -1,0 +1,27 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        row = len(matrix)
+        if row == 0: return []
+        col = len(matrix[0])
+        direct = [[0,1], [1,0],[0,-1],[-1,0]]
+        res = []
+        
+        cur_row, cur_col, cur_direct = 0, 0, 0
+        while True:
+            res.append(matrix[cur_row][cur_col])
+            matrix[cur_row][cur_col] = None
+            
+            flag = False
+            for i in range(4):
+                next_row, next_col = cur_row + direct[cur_direct][0], cur_col + direct[cur_direct][1]
+                if next_row < 0 or next_row >= row or next_col <0 or next_col >= col or matrix[next_row][next_col] == None:
+                    cur_direct = (cur_direct+1) % 4
+                    continue
+                else:
+                    cur_row, cur_col = next_row, next_col
+                    flag = True
+                    break
+            
+            if not flag: break
+        
+        return res
