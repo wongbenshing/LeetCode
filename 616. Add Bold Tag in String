@@ -1,0 +1,29 @@
+class Solution:
+    def addBoldTag(self, s: str, dict: List[str]) -> str:
+        n = len(s)
+        flag = [True for _ in range(n)]
+        
+        for kw in dict:
+            index = -1
+            while True:
+                index = s.find(kw, index+1)     # replace one by one (Could be overlapped)
+                if index != -1:
+                    flag[index: index+len(kw)] = [False] * len(kw)
+                else:
+                    break
+        
+        cur, res = True, ''
+        for i, tag in enumerate(flag):
+            if tag == cur:        # Same Status
+                res += s[i]
+            elif tag == False:    # Cur => No Bold;  Tag => Need Bolded
+                res += '<b>' + s[i]
+                cur = False
+            else:
+                res += '</b>' + s[i]   # Cur => Bolded;  Tag => Don't Bold
+                cur = True
+        if not cur:
+            res += '</b>'
+        
+        return res
+        
