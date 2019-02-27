@@ -1,0 +1,14 @@
+class Solution:
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        start, res = 0, 0   
+        dic = {}    # Dictionary for Hash
+        
+        for i, ch in enumerate(s):
+            dic[ch] = i       # Add in
+            if len(dic) > k:  
+                start = min(dic.values())  # Update left bound of sliding window
+                del dic[s[start]]
+                start += 1                # Careful about start from the next one
+            res = max(i-start+1, res)     # Update the maximum result
+            
+        return res
