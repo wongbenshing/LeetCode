@@ -1,0 +1,42 @@
+class Solution:
+    def gameOfLife(self, board: List[List[int]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        row = len(board)
+        if not row: return []
+        col = len(board[0])
+        
+        mark = [[0 for _ in range(col)] for _ in range(row)]
+        
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == 0:
+                    if j+1 < col: 
+                        mark[i][j] += board[i][j+1]
+                        if i+1 < row:
+                            mark[i][j] += board[i+1][j+1]
+                    if i+1 < row:
+                        mark[i][j] += board[i+1][j]
+                        if j-1 >= 0:
+                            mark[i][j] += board[i+1][j-1]
+                            
+                    if mark[i][j] == 3:
+                        board[i][j] = 1
+                        continue
+                        
+                if j+1 < col:
+                    mark[i][j+1] += board[i][j]
+                    mark[i][j] += board[i][j+1]
+                    if i+1 < row:
+                        mark[i+1][j+1] += board[i][j]
+                        mark[i][j] += board[i+1][j+1]
+                if i+1 < row:
+                    mark[i+1][j] += board[i][j]
+                    mark[i][j] += board[i+1][j]
+                    if j-1 >= 0:
+                        mark[i+1][j-1] += board[i][j]
+                        mark[i][j] += board[i+1][j-1]
+                
+                if mark[i][j] < 2 or mark[i][j] > 3:
+                    board[i][j] = 0
