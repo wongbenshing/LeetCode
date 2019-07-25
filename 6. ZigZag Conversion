@@ -1,0 +1,32 @@
+"""
+ZigZag Conversion (N) can be divided for several parts, each part is like 
+  '| '
+  '|/'
+So, based on the number of Rows, the string can be sperated for several blocks
+Each block is with the length of 2*(numRows-1)
+"""
+
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        # Special Situation
+        if numRows == 1:
+            return s
+        
+        charMap = [""] * numRows
+        stringLen = len(s)
+        blockLen = 2*numRows - 2
+        currIndex = 0
+        
+        while currIndex < stringLen:
+            charMap[0] += s[currIndex]              # First line
+            if currIndex + numRows -1 < stringLen:  # Last line
+                charMap[-1] += s[currIndex + numRows-1]
+            for i in range(1, numRows-1):  
+                if currIndex + i < stringLen:
+                    charMap[i] += s[currIndex + i]
+                if currIndex + blockLen - i < stringLen:
+                    charMap[i] += s[currIndex + blockLen - i]
+            currIndex += blockLen
+        
+        res = "".join(charMap)
+        return res
